@@ -10,10 +10,14 @@ const STARTING_STATUS: GameStateType = {
     currentPlayer: 'x',
     winner: null,
     status: 'initial',
+    playerNameX: "Player X",
+    playerNameO: "Player O",
+    difficulty: 'easy'
 }
 
 export type GameStatus = 'initial' | 'start' | 'game' | 'end'
 export type CellState = '' | 'x' | 'o'
+export type Difficulty = 'easy' | 'medium' | 'hard'
 
 // Define the structure of the game state
 export type GameStateType = {
@@ -21,6 +25,9 @@ export type GameStateType = {
     currentPlayer: 'x' | 'o'; // x = player 1, o = player 2
     winner: string | null; // 'x', 'o', or null if no winner yet
     status: GameStatus;
+    playerNameX: string
+    playerNameO: string
+    difficulty: Difficulty
 };
 
 // Define the context type
@@ -31,6 +38,7 @@ export type MainContextType = {
     playAgain: () => void
     resetGame: () => void,
     changeStatus: (status: GameStatus) => void
+    startGame: (settings: Partial<GameStateType>) => void
 };
 
 // Create the GameContext
@@ -41,6 +49,7 @@ export const GameContext = createContext<MainContextType>({
     playAgain: () => { },
     resetGame: () => { },
     changeStatus: (status) => { },
+    startGame: (settings) => {}
 });
 
 // GameProvider component to wrap the app
@@ -51,9 +60,15 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
         setGameState({ ...gameState, status: status })
     }
 
+    const startGame = (settings: Partial<GameStateType>) => {
+        setGameState(
+            { ...gameState, ...settings, board: EMPTY_BOARD, status: 'game', currentPlayer: 'x' }
+        )
+    }
+
     const playAgain = () => {
         setGameState(
-            { ...gameState, board: EMPTY_BOARD, status: 'start', currentPlayer: 'x' }
+            { ...gameState, board: EMPTY_BOARD, status: 'game', currentPlayer: 'x' }
         )
     }
 
@@ -64,22 +79,22 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     const handleClick = (index: number) => {
 
         if (gameState.status != 'end' && gameState.board[index] === '') {
+            let newState = { ...gameState }
             const newBoard = [...gameState.board];
             newBoard[index] = gameState.currentPlayer;
-
+            newState = { ...newState, board: newBoard, currentPlayer: gameState.currentPlayer === 'x' ? 'o' : 'x', }
             const winner = checkWinner(newBoard);
-            setGameState({
-                ...gameState,
-                board: newBoard,
-                currentPlayer: gameState.currentPlayer === 'x' ? 'o' : 'x',
-                winner: winner,
-                status: winner != 'none' ? 'end' : gameState.status,
-            });
+            if (winner === 'o') {
+                newState = { ...newState, winner: newState.playerNameO, status: 'end' }
+            } else if (winner === 'x') {
+                newState = { ...newState, winner: newState.playerNameX, status: 'end' }
+            }
+            setGameState(newState);
         }
     };
 
     return (
-        <GameContext.Provider value={{ gameState, setGameState, handleClick, playAgain, resetGame, changeStatus }}>
+        <GameContext.Provider value={{ gameState, setGameState, handleClick, playAgain, resetGame, changeStatus, startGame }}>
             {children}
         </GameContext.Provider>
     );
