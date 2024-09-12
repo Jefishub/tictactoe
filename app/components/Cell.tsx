@@ -2,6 +2,8 @@
 
 import { useContext } from "react";
 import { GameContext } from "../GameContext";
+import { ImCross } from "react-icons/im";
+import { FaRegCircle } from "react-icons/fa";
 
 export const Cell = ({ children, index }: { children: React.ReactNode, index: number }) => {
     const {gameState, handleClick} = useContext(GameContext)
@@ -10,7 +12,8 @@ export const Cell = ({ children, index }: { children: React.ReactNode, index: nu
             onClick={() => handleClick(index)}
             className="flex aspect-square justify-center items-center border border-gray-300 cursor-pointer"
         >
-            {gameState.board[index]}
+            {gameState.board[index] === 'o' && <FaRegCircle />}
+            {gameState.board[index] === 'x' && <ImCross />}
         </div>
     );
 };
