@@ -1,7 +1,7 @@
 'use client';
 
-import React, { createContext, useState, Dispatch, SetStateAction, ReactNode } from 'react';
-import { checkWinner } from './util/util';
+import React, { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from 'react';
+import { checkWinner, selectRandomEmptyCell } from './util/util';
 
 const EMPTY_BOARD = Array(9).fill('')
 
@@ -12,7 +12,9 @@ const STARTING_STATUS: GameStateType = {
     status: 'initial',
     playerNameX: "Player X",
     playerNameO: "Player O",
-    difficulty: 'easy'
+    difficulty: 'easy',
+    isLoading: false,
+    message: ""
 }
 
 export type GameStatus = 'initial' | 'start' | 'game' | 'end'
@@ -28,6 +30,8 @@ export type GameStateType = {
     playerNameX: string
     playerNameO: string
     difficulty: Difficulty
+    isLoading: boolean
+    message: string
 };
 
 // Define the context type
@@ -49,12 +53,21 @@ export const GameContext = createContext<MainContextType>({
     playAgain: () => { },
     resetGame: () => { },
     changeStatus: (status) => { },
-    startGame: (settings) => {}
+    startGame: (settings) => { }
+
 });
 
 // GameProvider component to wrap the app
 export const GameProvider = ({ children }: { children: ReactNode }) => {
     const [gameState, setGameState] = useState<GameStateType>(STARTING_STATUS);
+
+    useEffect(() => {
+        if (gameState.currentPlayer === 'o' && gameState.status === 'game') {
+            setGameState({ ...gameState, isLoading: true, message: 'Thinking...' })
+            setTimeout(() => handleClick(selectRandomEmptyCell(gameState.board)), 2000)
+        }
+
+    }, [gameState.currentPlayer])
 
     const changeStatus = (status: GameStatus) => {
         setGameState({ ...gameState, status: status })
@@ -62,13 +75,13 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
     const startGame = (settings: Partial<GameStateType>) => {
         setGameState(
-            { ...gameState, ...settings, board: EMPTY_BOARD, status: 'game', currentPlayer: 'x' }
+            { ...gameState, ...settings, board: EMPTY_BOARD, status: 'game', currentPlayer: 'x', isLoading: false }
         )
     }
 
     const playAgain = () => {
         setGameState(
-            { ...gameState, board: EMPTY_BOARD, status: 'game', currentPlayer: 'x' }
+            { ...gameState, board: EMPTY_BOARD, status: 'game', currentPlayer: 'x', isLoading: false }
         )
     }
 
@@ -77,17 +90,20 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const handleClick = (index: number) => {
+        if (gameState.isLoading && gameState.currentPlayer === 'o') return
 
         if (gameState.status != 'end' && gameState.board[index] === '') {
             let newState = { ...gameState }
             const newBoard = [...gameState.board];
             newBoard[index] = gameState.currentPlayer;
-            newState = { ...newState, board: newBoard, currentPlayer: gameState.currentPlayer === 'x' ? 'o' : 'x', }
+            newState = { ...newState, board: newBoard, currentPlayer: gameState.currentPlayer === 'x' ? 'o' : 'x', isLoading: false }
             const winner = checkWinner(newBoard);
             if (winner === 'o') {
                 newState = { ...newState, winner: newState.playerNameO, status: 'end' }
             } else if (winner === 'x') {
                 newState = { ...newState, winner: newState.playerNameX, status: 'end' }
+            } else if (winner === 'draw') {
+                newState = { ...newState, winner: null, status: 'end' }
             }
             setGameState(newState);
         }
