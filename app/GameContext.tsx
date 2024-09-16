@@ -50,11 +50,11 @@ export type MainContextType = {
 export const GameContext = createContext<MainContextType>({
     gameState: STARTING_STATUS,
     setGameState: () => { },
-    handleClick: (index) => { },
+    handleClick: () => { },
     playAgain: () => { },
     resetGame: () => { },
-    changeStatus: (status) => { },
-    startGame: (settings) => { },
+    changeStatus: () => { },
+    startGame: () => { },
     messages: [],
     status: "awaiting_message"
 

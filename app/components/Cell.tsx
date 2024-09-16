@@ -5,7 +5,7 @@ import { GameContext } from "../GameContext";
 import { ImCross } from "react-icons/im";
 import { FaRegCircle } from "react-icons/fa";
 
-export const Cell = ({ children, index }: { children: React.ReactNode, index: number }) => {
+export const Cell = ({  index }: { index: number }) => {
     const {gameState, handleClick} = useContext(GameContext)
     return (
         <div

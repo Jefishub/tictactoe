@@ -14,7 +14,7 @@ export const checkWinner = (board: CellState[]): "1" | "2" | 'draw' | 'none' => 
     ];
 
     // Loop through all winning combinations
-    for (let combination of winningCombinations) {
+    for (const combination of winningCombinations) {
         const [a, b, c] = combination;
         if (board[a] && board[a] === board[b] && board[a] === board[c]) {
             return board[a] === 1 ? "1" : "2"; // Return "1" or "2" as the winner
