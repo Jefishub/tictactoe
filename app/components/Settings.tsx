@@ -9,7 +9,7 @@ export const SettingsForm = () => {
 
     const submitForm = (e: FormEvent) => {
         e.preventDefault()
-        startGame({ playerNameX: name, difficulty: difficulty })
+        startGame({ playerName1: name, difficulty: difficulty })
     }
 
     return (

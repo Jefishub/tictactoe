@@ -12,8 +12,8 @@ export const Cell = ({ children, index }: { children: React.ReactNode, index: nu
             onClick={() => handleClick(index)}
             className="flex aspect-square justify-center items-center border border-gray-300 cursor-pointer"
         >
-            {gameState.board[index] === 'o' && <FaRegCircle />}
-            {gameState.board[index] === 'x' && <ImCross />}
+            {gameState.board[index] === 2 && <FaRegCircle />}
+            {gameState.board[index] === 1 && <ImCross />}
         </div>
     );
 };

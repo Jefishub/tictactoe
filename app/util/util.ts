@@ -1,7 +1,7 @@
 import { CellState } from "../GameContext";
 
 // Function to check if a player has won
-export const checkWinner = (board: CellState[]): 'x' | 'o' | 'draw' | 'none' => {
+export const checkWinner = (board: CellState[]): "1" | "2" | 'draw' | 'none' => {
     const winningCombinations = [
         [0, 1, 2], // Top row
         [3, 4, 5], // Middle row
@@ -17,12 +17,12 @@ export const checkWinner = (board: CellState[]): 'x' | 'o' | 'draw' | 'none' => 
     for (let combination of winningCombinations) {
         const [a, b, c] = combination;
         if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-            return board[a]; // Return 'x' or 'o' as the winner
+            return board[a] === 1 ? "1" : "2"; // Return "1" or "2" as the winner
         }
     }
 
     // Check for a draw (no empty spaces and no winner)
-    if (board.every((cell) => cell !== '')) {
+    if (board.every((cell) => cell !== 0)) {
         return 'draw';
     }
 
@@ -30,10 +30,10 @@ export const checkWinner = (board: CellState[]): 'x' | 'o' | 'draw' | 'none' => 
 };
 
 // Function to make a random automated move
-export const selectRandomEmptyCell = (board: string[]) => {
+export const selectRandomEmptyCell = (board: CellState[]) => {
     // Find available (empty) cells
     const availableCells = board
-        .map((cell, index) => (cell === '' ? index : null))
+        .map((cell, index) => (cell === 0 ? index : null))
         .filter((index) => index !== null) as number[];
 
     if (availableCells.length === 0) {

@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Card, Spinner } from "flowbite-react"
+import { Button, Card } from "flowbite-react"
 import { useContext } from "react"
 import { Board } from "./Board"
 import { GameContext } from "../GameContext"
@@ -28,8 +28,8 @@ export const GameScreen = () => {
             {gameState.status != 'initial' &&
                 <Card className="w-full max-w-96" theme={{ root: { children: "flex h-full flex-col justify-center gap-4" } }}>
                     <div className="grid grid-cols-2 w-full h-24">
-                        <PlayerCard isPlayerTurn={gameState.currentPlayer === 'x'} playerName={gameState.playerNameX} Avatar={FaRegSmile} />
-                        <ComputerCard isPlayerTurn={gameState.currentPlayer === 'o'} playerName={gameState.playerNameO} Avatar={FaRobot} />
+                        <PlayerCard isPlayerTurn={gameState.currentPlayer === 1} playerName={gameState.playerName1} Avatar={FaRegSmile} />
+                        <ComputerCard isPlayerTurn={gameState.currentPlayer === 2} playerName={gameState.playerName2} Avatar={FaRobot} />
                     </div>
                 </Card>}
             {gameState.status === 'end'
