@@ -7,12 +7,7 @@ export const Board = () => {
         <div className="flex w-screen max-w-96 p-4 sm:p-0">
             <div className="grid grid-cols-3 w-full aspect-square bg-slate-500">
                 {cells.map((cell, i) => (
-                    <Cell
-                        key={cell}
-                        index={i}
-                    >
-                        {cell}
-                    </Cell>
+                    <Cell key={cell} index={i} />
                 ))}
             </div>
         </div>
