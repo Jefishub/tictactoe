@@ -63,19 +63,26 @@ export const GameContext = createContext<MainContextType>({
 // GameProvider component to wrap the app
 export const GameProvider = ({ children }: { children: ReactNode }) => {
     const [gameState, setGameState] = useState<GameStateType>(STARTING_STATUS);
+    const [lastProcessedIndex, setLastProcessedIndex] = useState(-1);
     const { append, messages, status } =
         useAssistant({ api: '/api/assistant' });
 
     useEffect(() => {
-        console.log(messages);
+        // Process only messages after the last processed one
+        const newMessages = messages.slice(lastProcessedIndex + 1);
 
-        const latestDataMessage = messages.filter(m => m.role === 'data').at(-1)
-        if (latestDataMessage?.role === 'data' && latestDataMessage.data) {
-            const { cellIndex } = latestDataMessage.data as { cellIndex: number }
-            const clickStatus = handleClick(cellIndex)
-            if (!clickStatus) handleClick(selectRandomEmptyCell(gameState.board))
-        }
-    }, [messages])
+        newMessages.forEach((latestMessage, index) => {
+            if (latestMessage?.role === 'data' && latestMessage.data) {
+                const { cellIndex } = latestMessage.data as { cellIndex: number };
+                const clickStatus = handleClick(cellIndex);
+                if (!clickStatus) {
+                    handleClick(selectRandomEmptyCell(gameState.board));
+                }
+                // Update the last processed index to avoid reprocessing
+                setLastProcessedIndex(lastProcessedIndex + index + 1);
+            }
+        });
+    }, [messages]);
 
     useEffect(() => {
         if (gameState.currentPlayer === 2 && gameState.status === 'game') {
