@@ -69,9 +69,9 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         console.log(messages);
 
-        const latestMessage = messages.at(-1)
-        if (latestMessage?.role === 'data' && latestMessage.data) {
-            const { cellIndex } = latestMessage.data as { cellIndex: number }
+        const latestDataMessage = messages.filter(m => m.role === 'data').at(-1)
+        if (latestDataMessage?.role === 'data' && latestDataMessage.data) {
+            const { cellIndex } = latestDataMessage.data as { cellIndex: number }
             const clickStatus = handleClick(cellIndex)
             if (!clickStatus) handleClick(selectRandomEmptyCell(gameState.board))
         }
