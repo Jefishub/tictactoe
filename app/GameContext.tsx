@@ -63,7 +63,7 @@ export const GameContext = createContext<MainContextType>({
 // GameProvider component to wrap the app
 export const GameProvider = ({ children }: { children: ReactNode }) => {
     const [gameState, setGameState] = useState<GameStateType>(STARTING_STATUS);
-    const { append, messages, status, error } =
+    const { append, messages, status } =
         useAssistant({ api: '/api/assistant' });
 
     useEffect(() => {

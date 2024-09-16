@@ -1,5 +1,5 @@
 //Assistan function
-const makeGameAction = {
+/* const makeGameAction = {
     "name": "makeGameAction",
     "description": "Make a game action for computer",
     "strict": false,
@@ -25,4 +25,4 @@ const makeGameAction = {
         "cellIndex"
       ]
     }
-  }
+  } */
