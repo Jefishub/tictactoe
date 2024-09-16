@@ -6,7 +6,6 @@ import { Board } from "./Board"
 import { GameContext } from "../GameContext"
 import { SettingsForm } from "./Settings"
 import { FaRobot } from "react-icons/fa";
-import { FaRegSmile } from "react-icons/fa";
 import PlayerCard from "./PlayerCard"
 import ComputerCard from "./ComputerCard"
 
@@ -28,7 +27,7 @@ export const GameScreen = () => {
             {gameState.status != 'initial' &&
                 <Card className="w-full max-w-96" theme={{ root: { children: "flex h-full flex-col justify-center gap-4" } }}>
                     <div className="grid grid-cols-2 w-full h-24">
-                        <PlayerCard isPlayerTurn={gameState.currentPlayer === 1} playerName={gameState.playerName1} Avatar={FaRegSmile} />
+                        <PlayerCard isPlayerTurn={gameState.currentPlayer === 1} playerName={gameState.playerName1} />
                         <ComputerCard isPlayerTurn={gameState.currentPlayer === 2} playerName={gameState.playerName2} Avatar={FaRobot} />
                     </div>
                 </Card>}
@@ -39,10 +38,10 @@ export const GameScreen = () => {
                 : null}
 
             <div className="flex flex-row gap-2">
-                {(gameState.status === 'end' || gameState.status === 'game') && <Button onClick={() => changeStatus('start')}>Settings</Button>}
+                {(gameState.status === 'end' || gameState.status === 'game') && <Button onClick={() => changeStatus('start')}>Back to start</Button>}
                 {gameState.status === 'end' && <Button onClick={playAgain}>Play again</Button>}
             </div>
-            <Button onClick={() => console.log(gameState)}>Log state</Button>
+            {/* <Button onClick={() => console.log(gameState)}>Log state</Button> */}
 
         </div>
     )

@@ -6,13 +6,12 @@ import { useContext, useEffect, useState } from "react"
 import { GameContext } from "../GameContext"
 
 const ComputerCard = ({ isPlayerTurn, playerName, Avatar }: { isPlayerTurn: boolean, playerName: string, Avatar: IconType }) => {
-    const { messages, status } = useContext(GameContext);
+    const { messages, status, gameState } = useContext(GameContext);
     const [show, setShow] = useState(false)
     const [isPending, setIsPending] = useState(false)
     const message = messages.filter((m) => m.role === 'assistant').at(-1)
 
     useEffect(() => {
-        console.log(status);
         if (status === 'awaiting_message') setTimeout(() => setShow(false), 3000)
         else {
             setShow(true)
@@ -36,10 +35,18 @@ const ComputerCard = ({ isPlayerTurn, playerName, Avatar }: { isPlayerTurn: bool
             <div className="p-2 cursor-pointer" onClick={() => setShow(false)}>x</div>
         </div>
     );
+
+    const bgColor = () => {
+        if (gameState.winner === gameState.playerName2) return "bg-lime-600"
+        if (gameState.winner === gameState.playerName1) return "bg-red-600"
+        if (isPlayerTurn) return "bg-lime-600"
+        return ""
+    }
+
     return (
         <Popover open={show} content={content} placement="top" onOpenChange={() => setTimeout(() => setShow(false), 5000)}>
-            <div className={`flex justify-center items-center flex-col gap-2 ${isPlayerTurn && "bg-lime-600"}`}>
-                <Avatar className={`size-12`} />
+            <div className={`flex justify-center items-center flex-col gap-2 ${bgColor()}`}>
+                <Avatar className={`size-12 ${gameState.winner === gameState.playerName2 && "animate-bounce"}`} />
                 <div>{playerName}</div>
             </div>
         </Popover >

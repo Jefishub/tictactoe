@@ -13,7 +13,7 @@ const STARTING_STATUS: GameStateType = {
     winner: null,
     status: 'initial',
     playerName1: "Player X",
-    playerName2: "Player O",
+    playerName2: "ChatGPT",
     difficulty: 'easy'
 }
 
@@ -103,7 +103,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
     const playAgain = () => {
         setGameState(
-            { ...gameState, board: EMPTY_BOARD, status: 'game', currentPlayer: 1 }
+            { ...gameState, board: EMPTY_BOARD, status: 'game', currentPlayer: 1, winner: null }
         )
     }
 
@@ -119,9 +119,9 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
             newState = { ...newState, board: newBoard, currentPlayer: gameState.currentPlayer === 1 ? 2 : 1 }
             const winner = checkWinner(newBoard);
             if (winner === "1") {
-                newState = { ...newState, winner: newState.playerName2, status: 'end' }
-            } else if (winner === "2") {
                 newState = { ...newState, winner: newState.playerName1, status: 'end' }
+            } else if (winner === "2") {
+                newState = { ...newState, winner: newState.playerName2, status: 'end' }
             } else if (winner === 'draw') {
                 newState = { ...newState, winner: null, status: 'end' }
             }
