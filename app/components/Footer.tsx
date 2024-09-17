@@ -26,7 +26,7 @@ export default function CustomFooter() {
                 </a>
                 <a
                     className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://jeremanni.info"
+                    href="https://jeremanni.com"
                 >
                     <CiGlobe className="size-8" />
                     <span className="hidden sm:flex">Go to my website →</span>
