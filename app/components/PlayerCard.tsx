@@ -11,7 +11,7 @@ const PlayerCard = ({ isPlayerTurn, playerName }: { isPlayerTurn: boolean, playe
         if (gameState.winner === gameState.playerName1) return "bg-lime-600"
         if (gameState.winner === gameState.playerName2) return "bg-red-600"
         if (isPlayerTurn) return "bg-lime-600"
-        return ""
+        return "bg-gray-500"
     }
 
     const Avatar = () => {
@@ -21,7 +21,7 @@ const PlayerCard = ({ isPlayerTurn, playerName }: { isPlayerTurn: boolean, playe
     }
 
     return (
-        <div className={`flex justify-center items-center flex-col gap-2 ${bgColor()}`}>
+        <div className={`flex justify-center items-center flex-col text-white gap-2 ${bgColor()}`}>
             {<Avatar />}
             <div>{playerName}</div>
         </div>

@@ -40,12 +40,12 @@ const ComputerCard = ({ isPlayerTurn, playerName, Avatar }: { isPlayerTurn: bool
         if (gameState.winner === gameState.playerName2) return "bg-lime-600"
         if (gameState.winner === gameState.playerName1) return "bg-red-600"
         if (isPlayerTurn) return "bg-lime-600"
-        return ""
+        return "bg-gray-500"
     }
 
     return (
         <Popover open={show} content={content} placement="top" onOpenChange={() => setTimeout(() => setShow(false), 5000)}>
-            <div className={`flex justify-center items-center flex-col gap-2 ${bgColor()}`}>
+            <div className={`flex justify-center items-center text-white flex-col gap-2 ${bgColor()}`}>
                 <Avatar className={`size-12 ${gameState.winner === gameState.playerName2 && "animate-bounce"}`} />
                 <div>{playerName}</div>
             </div>
