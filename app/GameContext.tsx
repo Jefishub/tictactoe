@@ -13,7 +13,7 @@ const STARTING_STATUS: GameStateType = {
     winner: null,
     status: 'initial',
     playerName1: "Player X",
-    playerName2: "ChatGPT",
+    playerName2: "ChatGPT-3.5",
     difficulty: 'easy'
 }
 
@@ -41,7 +41,7 @@ export type MainContextType = {
     playAgain: () => void
     resetGame: () => void,
     changeStatus: (status: GameStatus) => void
-    startGame: (settings: Partial<GameStateType>) => void
+    startGame: () => void
     messages: Message[]
     status: AssistantStatus
 };
@@ -95,9 +95,9 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
         setGameState({ ...gameState, status: status })
     }
 
-    const startGame = (settings: Partial<GameStateType>) => {
+    const startGame = () => {
         setGameState(
-            { ...gameState, ...settings, board: EMPTY_BOARD, status: 'game', currentPlayer: 1 }
+            { ...gameState, board: EMPTY_BOARD, status: 'game', currentPlayer: 1 }
         )
     }
 

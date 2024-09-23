@@ -24,10 +24,10 @@ export const GameScreen = () => {
                     {(gameState.status === 'game' || gameState.status === 'end') && <Board />}
                 </div>}
 
-            {gameState.status != 'initial' &&
+            {['game', 'end'].includes(gameState.status) &&
                 <Card className="w-full max-w-96" theme={{ root: { children: "flex h-full flex-col justify-center gap-4" } }}>
                     <div className="grid grid-cols-2 w-full h-24">
-                        <PlayerCard isPlayerTurn={gameState.currentPlayer === 1} playerName={gameState.playerName1} />
+                        <PlayerCard isPlayerTurn={gameState.currentPlayer === 1} />
                         <ComputerCard isPlayerTurn={gameState.currentPlayer === 2} playerName={gameState.playerName2} Avatar={FaRobot} />
                     </div>
                 </Card>}

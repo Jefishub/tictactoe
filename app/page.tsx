@@ -2,6 +2,7 @@ import CustomFooter from "./components/Footer";
 import { GameScreen } from "./components/GameScreen";
 import { Header } from "./components/Header";
 import { GameProvider } from "./GameContext";
+import { PlayerProvider } from "./PlayerContext";
 
 export default function Home() {
   return (
@@ -9,7 +10,9 @@ export default function Home() {
       <main className="flex flex-col w-full row-start-2 m-auto">
         <Header />
         <GameProvider >
-          <GameScreen />
+          <PlayerProvider>
+            <GameScreen />
+          </PlayerProvider>
         </GameProvider>
       </main>
       <CustomFooter />
