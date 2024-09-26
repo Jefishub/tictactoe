@@ -54,9 +54,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     const [playerState, setPlayerState] = useState<PlayerType>(PLAYER);
     const [computerState, setComputerState] = useState<ComputerType>(COMPUTER);
 
-    const setPlayer = (player: PlayerType) => {
-        console.log(player);
-        
+    const setPlayer = (player: PlayerType) => {        
         setPlayerState(player)
     }
 

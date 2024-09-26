@@ -11,10 +11,7 @@ const STARTING_STATUS: GameStateType = {
     board: EMPTY_BOARD, // 9 cells representing a 3x3 grid
     currentPlayer: 1,
     winner: null,
-    status: 'initial',
-    playerName1: "Player X",
-    playerName2: "ChatGPT-3.5",
-    difficulty: 'easy'
+    status: 'initial'
 }
 
 export type GameStatus = 'initial' | 'start' | 'game' | 'end'
@@ -26,11 +23,8 @@ export type ComputerResponse = { cellIndex: number, message: string }
 export type GameStateType = {
     board: CellState[]; // Representing the board with 1, 1, or empty strings
     currentPlayer: 1 | 2; // x = player 1, o = player 2
-    winner: string | null; // 1, 2, or null if no winner yet
+    winner: "1" | "2" | null; // 1, 2, or null if no winner yet
     status: GameStatus;
-    playerName1: string
-    playerName2: string
-    difficulty: Difficulty
 };
 
 // Define the context type
@@ -97,13 +91,13 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
     const startGame = () => {
         setGameState(
-            { ...gameState, board: EMPTY_BOARD, status: 'game', currentPlayer: 1 }
+            { board: EMPTY_BOARD, status: 'game', currentPlayer: 1, winner: null }
         )
     }
 
     const playAgain = () => {
         setGameState(
-            { ...gameState, board: EMPTY_BOARD, status: 'game', currentPlayer: 1, winner: null }
+            { board: EMPTY_BOARD, status: 'game', currentPlayer: 1, winner: null }
         )
     }
 
@@ -119,9 +113,9 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
             newState = { ...newState, board: newBoard, currentPlayer: gameState.currentPlayer === 1 ? 2 : 1 }
             const winner = checkWinner(newBoard);
             if (winner === "1") {
-                newState = { ...newState, winner: newState.playerName1, status: 'end' }
+                newState = { ...newState, winner: "1", status: 'end' }
             } else if (winner === "2") {
-                newState = { ...newState, winner: newState.playerName2, status: 'end' }
+                newState = { ...newState, winner: "2", status: 'end' }
             } else if (winner === 'draw') {
                 newState = { ...newState, winner: null, status: 'end' }
             }

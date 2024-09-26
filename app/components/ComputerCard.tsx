@@ -1,12 +1,13 @@
 'use client'
 
-import { IconType } from "react-icons"
 import { Spinner, Popover } from "flowbite-react"
 import { useContext, useEffect, useState } from "react"
 import { GameContext } from "../GameContext"
+import { PlayerContext } from "../PlayerContext"
 
-const ComputerCard = ({ isPlayerTurn, playerName, Avatar }: { isPlayerTurn: boolean, playerName: string, Avatar: IconType }) => {
+const ComputerCard = () => {
     const { messages, status, gameState } = useContext(GameContext);
+    const {computerState} = useContext(PlayerContext)
     const [show, setShow] = useState(false)
     const [isPending, setIsPending] = useState(false)
     const message = messages.filter((m) => m.role === 'assistant').at(-1)
@@ -37,17 +38,17 @@ const ComputerCard = ({ isPlayerTurn, playerName, Avatar }: { isPlayerTurn: bool
     );
 
     const bgColor = () => {
-        if (gameState.winner === gameState.playerName2) return "bg-lime-600"
-        if (gameState.winner === gameState.playerName1) return "bg-red-600"
-        if (isPlayerTurn) return "bg-lime-600"
+        if (gameState.winner === "2") return "bg-lime-600"
+        if (gameState.winner === "1") return "bg-red-600"
+        if (gameState.currentPlayer === 2) return "bg-lime-600"
         return "bg-gray-500"
     }
 
     return (
         <Popover open={show} content={content} placement="top" onOpenChange={() => setTimeout(() => setShow(false), 5000)}>
             <div className={`flex justify-center items-center text-white flex-col gap-2 ${bgColor()}`}>
-                <Avatar className={`size-12 ${gameState.winner === gameState.playerName2 && "animate-bounce"}`} />
-                <div>{playerName}</div>
+                <computerState.Avatar className={`size-12 ${gameState.winner === "2" && "animate-bounce"}`} />
+                <div>{computerState.name}</div>
             </div>
         </Popover >
     )
