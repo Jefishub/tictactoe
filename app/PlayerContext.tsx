@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 import { FaRobot } from "react-icons/fa";
 import { FaRegSmile } from "react-icons/fa";
 import { IconType } from 'react-icons';
@@ -44,8 +44,8 @@ export type PlayersStateType = {
 export const PlayerContext = createContext<PlayersStateType>({
     playerState: PLAYER,
     computerState: COMPUTER,
-    setPlayer: (player) => { },
-    setComputer: (computer) => { }
+    setPlayer: () => { },
+    setComputer: () => { }
 
 });
 
